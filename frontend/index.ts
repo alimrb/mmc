@@ -4,7 +4,33 @@ import { appStore } from './stores/app-store';
 
 export const router = new Router(document.querySelector('#outlet'));
 
-router.setRoutes(routes);
+const customUrl = [];
+
+customUrl.push({
+  path: ':page',
+  component: 'page-view',
+  action: async () => {
+    await import('./views/page-view');
+  },
+});
+
+customUrl.push({
+  path: '',
+  component: 'page-view',
+  action: async () => {
+    await import('./views/page-view');
+  },
+});
+
+customUrl.push({
+  path: '/',
+  component: 'page-view',
+  action: async () => {
+    await import('./views/page-view');
+  },
+});
+
+router.setRoutes(customUrl);
 
 window.addEventListener('vaadin-router-location-changed', (e) => {
   appStore.setLocation((e as CustomEvent).detail.location);

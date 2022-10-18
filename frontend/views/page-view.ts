@@ -14,21 +14,9 @@ import { RouterLocation } from '@vaadin/router';
 import './component/page-description';
 import 'iconify-icon';
 import './component/language-selector';
-import './home-page';
-import './web-design';
-import './online-shops';
-import './online-projects';
-import './cloud-page';
-import './cloud-services';
-import './mobile-apps';
-import './as-an-art';
-import './secure-page';
-import './technologies-page';
-import './high-quality';
-import './professional-page';
 import './component/progress-bar';
 
-@customElement('home-page')
+@customElement('page-view')
 export class PageView extends LitElement {
   @query('page-loader')
   pageLoader!: PageLoader;
@@ -118,57 +106,8 @@ export class PageView extends LitElement {
       switch (postfix) {
         case '':
           this.dynamicContentHtml = html`<home-page-element></home-page-element>`;
-          document.title = 'smart solutions';
+          document.title = 'munich my city';
           break;
-        case 'web-design':
-          this.dynamicContentHtml = html`<web-design></web-design>`;
-          document.title = 'smart solutions';
-          break;
-        case 'online-shop':
-          this.dynamicContentHtml = html`<online-shops></online-shops>`;
-          document.title = 'smart solutions';
-          break;
-        case 'online-projects':
-          this.dynamicContentHtml = html`<online-projects></online-projects>`;
-          document.title = 'smart solutions';
-          break;
-        case 'cloud':
-          this.dynamicContentHtml = html`<cloud-page></cloud-page>`;
-          document.title = 'smart solutions';
-          break;
-        case 'cloud-services':
-          this.dynamicContentHtml = html`<cloud-services></cloud-services>`;
-          document.title = 'smart solutions';
-          break;
-
-        case 'mobile-app':
-          this.dynamicContentHtml = html`<mobile-apps></mobile-apps>`;
-          document.title = 'smart solutions';
-          break;
-
-        case 'as-an-art':
-          this.dynamicContentHtml = html`<as-an-art></as-an-art>`;
-          document.title = 'smart solutions';
-          break;
-
-        case 'secure':
-          this.dynamicContentHtml = html`<secure-page></secure-page>`;
-          document.title = 'smart solutions';
-          break;
-
-        case 'technologies':
-          this.dynamicContentHtml = html`<technologies-page></technologies-page>`;
-          document.title = 'smart solutions';
-          break;
-
-        case 'high-quality':
-          this.dynamicContentHtml = html`<high-quality></high-quality>`;
-          document.title = 'smart solutions';
-          break;
-
-        case 'professional':
-          this.dynamicContentHtml = html`<professional-page></professional-page>`;
-          document.title = 'smart solutions';
       }
 
       if (postfix !== '') setTimeout(() => window.scrollTo(0, window.innerHeight * 1.5), 2000);
