@@ -13,7 +13,7 @@ export class PageDescription extends LitElement {
 
   render() {
     return html`<div class="nonShown">${langChanged(() => (this.language = translateConfig.lang!))}</div>
-      <slot></slot>`;
+      <slot dir="auto"></slot>`;
   }
 
   static styles?: CSSResultGroup | undefined = css`
@@ -132,6 +132,7 @@ export class PageDescription extends LitElement {
             start: () => 'top top-=' + window.innerHeight / 2,
             end: () => '+=' + window.innerHeight,
             toggleActions: 'play reverse play reset',
+            markers: true,
           },
           autoAlpha: 1,
         })

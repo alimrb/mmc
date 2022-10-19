@@ -15,6 +15,7 @@ import './component/page-description';
 import 'iconify-icon';
 import './component/language-selector';
 import './component/progress-bar';
+import './home-page';
 
 @customElement('page-view')
 export class PageView extends LitElement {
@@ -43,37 +44,7 @@ export class PageView extends LitElement {
   `;
 
   render() {
-    return html`<page-progress-bar>
-        <h4 @click=${() => window.scrollTo(0, 0)}>smart solutions</h4>
-        <h4 @click=${() => window.scrollTo(0, window.innerHeight)}>read more</h4>
-        <h4 @click=${() => window.scrollTo(0, window.innerHeight * 2)}>menu</h4> </page-progress-bar
-      ><language-selector
-        ><iconify-icon id="de" icon="noto-v1:flag-for-flag-germany" width="36" height="36"></iconify-icon
-        ><iconify-icon
-          id="en"
-          style="color: yellow;"
-          icon="icon-park-solid:english"
-          width="36"
-          height="36"
-        ></iconify-icon></language-selector
-      ><scroll-down></scroll-down
-      ><toolbox-element
-        ><iconify-icon icon="carbon:home" @click=${() => (this.postfix = '')}></iconify-icon
-        ><iconify-icon
-          @click=${() => window.open('mailto:services@solutions.inetseite.de', '_blank')}
-          icon="eva:email-outline"
-        ></iconify-icon
-        ><iconify-icon icon="icon-park:twitter"></iconify-icon><iconify-icon icon="logos:facebook"></iconify-icon
-        ><iconify-icon icon="line-md:instagram"></iconify-icon
-        ><iconify-icon
-          icon="el:share-alt"
-          @click=${() =>
-            navigator.share({ url: window.location.href, text: this.shareDescription, title: document.title })}
-        ></iconify-icon
-        ><iconify-icon icon="logos:whatsapp-icon" @click=${() => window.open('https://wa.me/', '_blank')}></iconify-icon
-        ><iconify-icon icon="logos:telegram" @click=${() => window.open('https://t.me/alimrb', '_blank')}></iconify-icon
-        ><iconify-icon icon="logos:google-maps"></iconify-icon
-      ></toolbox-element>
+    return html`
       ${this.dynamicContentHtml} `;
   }
 
@@ -86,7 +57,7 @@ export class PageView extends LitElement {
   private updatePageView(postfix: string) {
     window.scrollTo(0, 0);
     const nextURL = '/' + postfix;
-    const nextTitle = 'smart solutions';
+    const nextTitle = 'munich my city';
     const nextState = { additionalInformation: '' };
 
     // This will create a new entry in the browser's history, without reloading
@@ -105,6 +76,8 @@ export class PageView extends LitElement {
       window.scrollTo(0, 0);
       switch (postfix) {
         case '':
+          console.log('home page is being loaded');
+
           this.dynamicContentHtml = html`<home-page-element></home-page-element>`;
           document.title = 'munich my city';
           break;

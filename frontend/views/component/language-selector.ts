@@ -3,8 +3,6 @@ import { css, CSSResultGroup, html, LitElement, PropertyValueMap, PropertyValues
 import { customElement, queryAssignedElements, state } from 'lit/decorators';
 import { langChanged, translateConfig, use } from 'lit-translate';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import { randomOf } from 'Frontend/utils/random-utils';
-import { PageView } from '../page-view';
 
 @customElement('language-selector')
 export class LanguageSelector extends LitElement {
@@ -15,7 +13,7 @@ export class LanguageSelector extends LitElement {
     return html`<slot></slot>`;
   }
 
-  @queryAssignedElements({ selector: 'iconify-icon' })
+  @queryAssignedElements()
   iconifyIcons!: Array<HTMLElement>;
 
   static styles?: CSSResultGroup | undefined = css`
@@ -23,15 +21,25 @@ export class LanguageSelector extends LitElement {
       position: fixed;
       display: flex;
       flex-direction: row;
+      align-items: center;
       z-index: 2;
-      right: 10vw;
-      top: 2rem;
-      opacity: 0;
+      right: 5vw;
+      top: 5rem;
     }
 
-    ::slotted(iconify-icon) {
+    ::slotted(*) {
+      padding: 0;
+      margin: 0;
+      margin-left: .5rem;
       cursor: pointer;
-      padding-left: 1rem;
+    }
+
+    ::slotted(h2) {
+      padding: .25rem;
+      color: white;
+      border-radius: 5px;
+      border: 1px solid white;
+      line-height: 1.3rem;
     }
   `;
 
@@ -41,16 +49,6 @@ export class LanguageSelector extends LitElement {
         this.selected = iconifyIcon.id;
         use(this.selected);
       };
-    });
-    gsap.registerPlugin(ScrollTrigger);
-
-    gsap.to(this, {
-      autoAlpha: 1,
-      scrollTrigger: {
-        trigger: this,
-        start: () => 'top top-=' + window.innerHeight / 2,
-        toggleActions: 'play none resume reset',
-      },
     });
   }
 

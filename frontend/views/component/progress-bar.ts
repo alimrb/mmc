@@ -115,13 +115,16 @@ export class ProgressBar extends LitElement {
     });
 
     this.titleElements?.forEach((titleElement, i) => {
+      titleElement.onclick = () => {
+        window.scrollTo(0, window.innerHeight * i);
+      };
       gsap.to(titleElement, {
         repeat: -1,
         yoyo: true,
         y: -8,
         scrollTrigger: {
           trigger: titleElement,
-          start: () => 'top top-=' + window.innerHeight * i * .69,
+          start: () => 'top top-=' + window.innerHeight * i * 0.69,
           end: () => '+=' + window.innerHeight,
           toggleActions: 'play reset play reset',
         },

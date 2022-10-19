@@ -1,5 +1,5 @@
 import { css, CSSResultGroup, html, LitElement, PropertyValueMap } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement, property, queryAssignedElements, state } from 'lit/decorators.js';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import SplitType from 'split-type';
@@ -11,21 +11,34 @@ import { HomePage } from '../home-page';
 
 @customElement('video-title')
 export class VideoTitle extends LitElement {
+  @property({ type: Boolean, attribute: 'no-animation' })
+  noAnimation = false;
+
+  @state()
+  language = 'de';
+
   render() {
-    return html`<slot @click=${() =>
-      ((
-        (((this.getRootNode() as ShadowRoot).host as HomePage).getRootNode() as ShadowRoot).host as PageView
-      ).postfix = '')}></slot>`;
+    return html`<div class="nonShown">${langChanged(() => (this.language = translateConfig.lang!))}</div>
+      <slot
+        dir="auto"
+        @click=${() =>
+          ((
+            (((this.getRootNode() as ShadowRoot).host as HomePage).getRootNode() as ShadowRoot).host as PageView
+          ).postfix = '')}
+      ></slot>`;
   }
 
   static styles?: CSSResultGroup | undefined = css`
+    .nonShown {
+      display: none;
+    }
     :host {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       position: absolute;
-      width: 100vw;
+      width: 90vw;
       max-height: 20vh;
       color: white;
       z-index: 1;
@@ -36,11 +49,36 @@ export class VideoTitle extends LitElement {
     }
 
     ::slotted(*) {
+      height: 0;
+      overflow-y: hidden;
       padding: 0;
       margin: 0;
       cursor: pointer;
     }
   `;
+
+  @queryAssignedElements()
+  assignedElements!: Array<HTMLElement>;
+
+  protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
+    if (_changedProperties.has('language')) {
+      this.assignedElements.forEach((assignedElement) => {
+        gsap.to(assignedElement, {
+          height: 0,
+        });
+      });
+
+      this.assignedElements.forEach((assignedElement) => {
+        const langAttribute = assignedElement.getAttribute('lang');
+        if (langAttribute)
+          if (langAttribute === this.language) {
+            gsap.to(assignedElement, {
+              height: '10rem',
+            });
+          }
+      });
+    }
+  }
 
   protected firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
     gsap.registerPlugin(ScrollTrigger);
@@ -57,7 +95,7 @@ export class VideoTitle extends LitElement {
               toggleActions: 'play pause resume reset',
             },
           })
-          .to(this, { top: () => '4rem' })
+          .to(this, { top: () => '5rem' })
           .to(this, {
             scale: 0.7,
             duration: 1,
@@ -85,7 +123,8 @@ export class VideoTitle extends LitElement {
             left: () => '15%',
           });
       }).revert;
-    animateCharsColor(this);
+
+    if (!this.noAnimation) animateCharsColor(this);
   }
 }
 

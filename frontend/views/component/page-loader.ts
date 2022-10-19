@@ -27,7 +27,7 @@ export class PageLoader extends LitElement {
     }
 
     ::slotted(*) {
-      font-family: 'Sora', sans-serif;
+      font-family: 'Noto Sans Arabic', sans-serif;
     }
 
 
